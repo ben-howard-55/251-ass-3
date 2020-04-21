@@ -2,7 +2,6 @@ package inventoryman;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +30,8 @@ public class ItemsCollection implements Iterable<Item> {
 
 	}
 
+
+
 	public String findItem(String itemToFind) {
 
 		for (Item item : _itemList) {
@@ -38,45 +39,29 @@ public class ItemsCollection implements Iterable<Item> {
 				return item.getItemToDisplay();
 			}
 		}
-
 		return null;
 	}
 
 
 
 	public List<String> getAll(String type) {
+		
 		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
 
+		Collections.sort(temp, new ItemComparator(type));
 
-		Collections.sort(temp, new Comparator<Item>() {
-			public int compare(Item object1, Item object2) { 
-
-				switch(type) {
-				case "Creator":
-					return object1.getCreator().compareTo(object2.getCreator());
-				case "Title":
-					return object1.getTitle().compareTo(object2.getTitle());
-				case "Acquisition":
-					return object1.getAcquisitionDateStr().compareTo(object2.getAcquisitionDateStr());
-				default:
-					return object1.getCreator().compareTo(object2.getCreator());
-				}
-			}
-		});
-
-		for (Item i : temp) {
+		for (Item i : temp) {	
 			info.add(i.getItemToDisplay());
 		}
-
 		return info;
-
 	}
+
+
 
 	public List<String> getItemsAcquiredInYear(String year) {
 		List<Item> itemsInYear = new ArrayList<Item>();
 		List<String> itemsInYearStr = new ArrayList<String>();
-
 
 		for (Item i : _itemList) {
 			if (i.getYearOfAcquisition().contentEquals(year)) {
@@ -84,18 +69,15 @@ public class ItemsCollection implements Iterable<Item> {
 			}
 		}
 
-		Collections.sort(itemsInYear, new Comparator<Item>() {
-			public int compare(Item object1, Item object2) { 
-				return object1.getAcquisitionDateStr().compareTo(object2.getAcquisitionDateStr());
-			}
-		});
+		Collections.sort(itemsInYear, new ItemComparator("Acquisition"));
 
-		for (Item i :itemsInYear) {
+		for (Item i : itemsInYear) {
 			itemsInYearStr.add(i.getItemToDisplay());
 		}
-
 		return itemsInYearStr;
 	}
+
+
 
 	public List<String> getCreators() {
 		List<String> temp = new ArrayList<String>();
@@ -108,89 +90,55 @@ public class ItemsCollection implements Iterable<Item> {
 				newList.add(i.getCreator());
 			}
 		}
-
 		return newList;
 	}
-	
-	
-	
-	
-	
 
+	
+	
 	public List<String> getFlatReport() {
-
-
 		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
 		List<Item> tempMusic = new ArrayList<Item>();
 		List<Item> tempBook = new ArrayList<Item>();
 		List<String> ownerList = new ArrayList<String>();
 
+		// Organise Items by its title
+		Collections.sort(temp, new ItemComparator("Title"));
 
-
-
-		Collections.sort(temp, new Comparator<Item>() {
-			public int compare(Item object1, Item object2) {
-				return object1.getTitle().compareTo(object2.getTitle());
-			}
-		});
-
-		for (int i = 0; i < temp.size(); i++) {
-			if (temp.get(i).getFormatStr().equals(formatType.CD.toString()) || temp.get(i).getFormatStr().equals(formatType.LP.toString())) {
-				tempMusic.add(temp.get(i));
-			} else if (temp.get(i).getFormatStr().equals(formatType.Hardcover.toString()) || temp.get(i).getFormatStr().equals(formatType.Paperback.toString())){
-				tempBook.add(temp.get(i));
+		// Seperate Items by Music and Book
+		for (Item item : temp) {
+			if (item.getFormatStr().equals(formatType.CD.toString()) || item.getFormatStr().equals(formatType.LP.toString())) {
+				tempMusic.add(item);
+			} else if (item.getFormatStr().equals(formatType.Hardcover.toString()) || item.getFormatStr().equals(formatType.Paperback.toString())){
+				tempBook.add(item);
 			}
 		}
 
-		Collections.sort(tempMusic, new Comparator<Item>() {
-			public int compare(Item object1, Item object2) {
-				return object1.getCreator().compareTo(object2.getCreator());
-			}
-		});
-		Collections.sort(tempBook, new Comparator<Item>() {
-			public int compare(Item object1, Item object2) {
-				return object1.getCreator().compareTo(object2.getCreator());
-			}
-		});
+		// Organise Books and Music by Creator
+		Collections.sort(tempMusic, new ItemComparator("Creator"));
+		Collections.sort(tempBook, new ItemComparator("Creator"));
 
-
-
-		for (int i = 0; i < _itemList.size(); i++) {
-
-			if(!ownerList.contains(temp.get(i).getOwner())) {
-
-				ownerList.add(temp.get(i).getOwner());		
-
+		// Find all unique Creators and organise them
+		for (Item i : _itemList) {
+			if(!ownerList.contains(i.getOwner())) {
+				ownerList.add(i.getOwner());
 			}
 		}
+		Collections.sort(ownerList);
 
-		Collections.sort(ownerList, new Comparator<String>() {
-			public int compare(String object1, String object2) {
-				return object1.compareTo(object2);
-			}
-		});
-
-
-
-		for (int i = 0; i < ownerList.size(); i++) {
-			for (int j = 0; j < tempBook.size(); j++) {
-				if (tempBook.get(j).getOwner().equals(ownerList.get(i))) {
-					info.add(tempBook.get(j).itemReport());
+		// add all books and music according to owner
+		for (String owner : ownerList) {
+			for (Item bookOwner : tempBook) {
+				if (owner.equals(bookOwner.getOwner())) {
+					info.add(bookOwner.itemReport());
 				}
 			}
-			for (int k = 0; k < tempMusic.size(); k++) {
-				if (tempMusic.get(k).getOwner().equals(ownerList.get(i))) {
-					info.add(tempMusic.get(k).itemReport());
+			for (Item musicOwner : tempMusic) {
+				if (owner.equals(musicOwner.getOwner())) {
+					info.add(musicOwner.itemReport());
 				}
 			}
 		}
 		return info;
-
 	}
-
-
-
-
-
 }

@@ -13,7 +13,20 @@ public class InventoryManImpl implements InventoryMan{
 		_itemList = new ItemsCollection();
 	}
 
-	
+	// enum class
+	public enum formatType {
+		CD,
+		LP,
+		Hardcover,
+		Paperback;
+	} 
+
+	public enum orderType {
+		Creator,
+		Title,
+		Acquisition;
+	}
+
 	@Override
 	public String addBook(String author, String title, String publicationYear, String publisher,
 			String acquisitionDateStr, String owner, String costStr, String formatStr) {
@@ -24,8 +37,7 @@ public class InventoryManImpl implements InventoryMan{
 			} 
 			if (acquisitionDateStr.charAt(4) != '-' || acquisitionDateStr.charAt(7) != '-' || acquisitionDateStr.charAt(acquisitionDateStr.length()-3) != '-') {
 				throw new ItemException("ErOR: A Incorrect dating format for acquisition date (needs to be ISO8601 format): " + acquisitionDateStr);
-			} 
-			
+			} 	
 		}
 		catch (ItemException ex) {
 			return ex.getMessage();
@@ -49,7 +61,6 @@ public class InventoryManImpl implements InventoryMan{
 			if (releaseDateStr.charAt(4) != '-' || releaseDateStr.charAt(7) != '-'|| releaseDateStr.charAt(releaseDateStr.length()-3) != '-') {
 				throw new ItemException("ERROR: A Incorrect dating format for release date (needs to be ISO8601 format): " + releaseDateStr);
 			} 
-			
 		}
 		catch (ItemException ex) {
 			return ex.getMessage();
@@ -63,7 +74,6 @@ public class InventoryManImpl implements InventoryMan{
 	public String getItemToDisplay(String creator, String title, String formatStr) {
 		
 		return _itemList.findItem(creator+title+formatStr);
-	
 	}
 	
 	@Override
@@ -79,8 +89,7 @@ public class InventoryManImpl implements InventoryMan{
 			return _itemList.getAll(order);
 		} else {
 			return null;
-		}
-		
+		}	
 	}
 
 	@Override
@@ -95,13 +104,6 @@ public class InventoryManImpl implements InventoryMan{
 			return _itemList.getCreators();
 		}
 
-	public enum formatType {
-		CD,
-		LP,
-		Hardcover,
-		Paperback
-	}
-
 	@Override
 	public List<String> getFlatReport() {
 		List<String> info = new ArrayList<String>();
@@ -110,7 +112,5 @@ public class InventoryManImpl implements InventoryMan{
 		info.addAll(_itemList.getFlatReport());
 		
 		return info;
-
 	}
-
 }
