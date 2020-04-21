@@ -14,18 +14,6 @@ public class InventoryManImpl implements InventoryMan{
 	}
 
 	// enum class
-	public enum formatType {
-		CD,
-		LP,
-		Hardcover,
-		Paperback;
-	} 
-
-	public enum orderType {
-		Creator,
-		Title,
-		Acquisition;
-	}
 
 	@Override
 	public String addBook(String author, String title, String publicationYear, String publisher,
@@ -78,18 +66,7 @@ public class InventoryManImpl implements InventoryMan{
 	
 	@Override
 	public List<String> getAll(String order) {
-		
-		if(order.equals(orderType.Acquisition.toString())) {
 			return _itemList.getAll(order);
-			
-		} else if (order.equals(orderType.Creator.toString())) {
-			return _itemList.getAll(order);
-			
-		} else if (order.equals(orderType.Title.toString())){
-			return _itemList.getAll(order);
-		} else {
-			return null;
-		}	
 	}
 
 	@Override

@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import inventoryman.InventoryManImpl.formatType;
+import inventoryman.Item.formatType;
+import inventoryman.Item.orderType;
 
 public class ItemsCollection implements Iterable<Item> {
 
@@ -13,7 +14,6 @@ public class ItemsCollection implements Iterable<Item> {
 
 	public ItemsCollection() {
 		_itemList = new ArrayList<Item>();
-
 	}
 
 	public Iterator<Item> iterator() {
@@ -48,8 +48,8 @@ public class ItemsCollection implements Iterable<Item> {
 		
 		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
-
-		Collections.sort(temp, new ItemComparator(type));
+		orderType _type = orderType.valueOf(type);
+		Collections.sort(temp, new ItemComparator(_type));
 
 		for (Item i : temp) {	
 			info.add(i.getItemToDisplay());
@@ -69,7 +69,7 @@ public class ItemsCollection implements Iterable<Item> {
 			}
 		}
 
-		Collections.sort(itemsInYear, new ItemComparator("Acquisition"));
+		Collections.sort(itemsInYear, new ItemComparator(orderType.Acquisition));
 
 		for (Item i : itemsInYear) {
 			itemsInYearStr.add(i.getItemToDisplay());
@@ -103,7 +103,7 @@ public class ItemsCollection implements Iterable<Item> {
 		List<String> ownerList = new ArrayList<String>();
 
 		// Organise Items by its title
-		Collections.sort(temp, new ItemComparator("Title"));
+		Collections.sort(temp, new ItemComparator(orderType.Title));
 
 		// Seperate Items by Music and Book
 		for (Item item : temp) {
@@ -115,8 +115,8 @@ public class ItemsCollection implements Iterable<Item> {
 		}
 
 		// Organise Books and Music by Creator
-		Collections.sort(tempMusic, new ItemComparator("Creator"));
-		Collections.sort(tempBook, new ItemComparator("Creator"));
+		Collections.sort(tempMusic, new ItemComparator(orderType.Creator));
+		Collections.sort(tempBook, new ItemComparator(orderType.Creator));
 
 		// Find all unique Creators and organise them
 		for (Item i : _itemList) {

@@ -17,6 +17,19 @@ public abstract class Item {
 		_creator = creator;
 		
 	}
+
+	public enum orderType {
+		Creator,
+		Title,
+		Acquisition;
+	}
+	
+	public enum formatType {
+		CD,
+		LP,
+		Hardcover,
+		Paperback;
+	} 
 	
 	public String getTitle() {
 		return _title;
