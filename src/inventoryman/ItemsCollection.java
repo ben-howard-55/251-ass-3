@@ -22,10 +22,12 @@ public class ItemsCollection implements Iterable<Item> {
 
 	public void addBook(Book book) {
 		_itemList.add(book);
+
 	}
 
 	public void addMusic(Music music) {
 		_itemList.add(music);
+
 	}
 
 
@@ -91,8 +93,8 @@ public class ItemsCollection implements Iterable<Item> {
 		return newList;
 	}
 
-
-
+	
+	
 	public List<String> getFlatReport() {
 		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
@@ -116,7 +118,7 @@ public class ItemsCollection implements Iterable<Item> {
 		Collections.sort(tempMusic, new ItemComparator("Creator"));
 		Collections.sort(tempBook, new ItemComparator("Creator"));
 
-		// Find all unique Owners and organise them
+		// Find all unique Creators and organise them
 		for (Item i : _itemList) {
 			if(!ownerList.contains(i.getOwner())) {
 				ownerList.add(i.getOwner());
