@@ -22,8 +22,4 @@ public class ItemComparator implements Comparator<Item> {
                 return object1.getCreator().compareTo(object2.getCreator());
             } 
         }
-
-
-
-
 }
