@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import inventoryman.Item.formatType;
-import inventoryman.Item.orderType;
+import inventoryman.ItemComparator.orderType;
 
 public class ItemsCollection implements Iterable<Item> {
 
@@ -52,7 +50,7 @@ public class ItemsCollection implements Iterable<Item> {
 		Collections.sort(temp, new ItemComparator(_type));
 
 		for (Item i : temp) {	
-			info.add(i.getItemToDisplay());
+			info.add(i.getItemToDisplay()); // polymorphism 
 		}
 		return info;
 	}
@@ -96,21 +94,24 @@ public class ItemsCollection implements Iterable<Item> {
 	
 	
 	public List<String> getFlatReport() {
-		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
 		List<Item> tempMusic = new ArrayList<Item>();
 		List<Item> tempBook = new ArrayList<Item>();
 		List<String> ownerList = new ArrayList<String>();
 
 		// Organise Items by its title
-		Collections.sort(temp, new ItemComparator(orderType.Title));
+		Collections.sort(_itemList, new ItemComparator(orderType.Title));
 
 		// Seperate Items by Music and Book
-		for (Item item : temp) {
-			if (item.getFormatStr().equals(formatType.CD.toString()) || item.getFormatStr().equals(formatType.LP.toString())) {
+		for (Item item : _itemList) {
+			if (item instanceof Music) {
 				tempMusic.add(item);
-			} else if (item.getFormatStr().equals(formatType.Hardcover.toString()) || item.getFormatStr().equals(formatType.Paperback.toString())){
+			} else {
 				tempBook.add(item);
+			}
+			// find all unique owner names
+			if(!ownerList.contains(item.getOwner())) {
+				ownerList.add(item.getOwner());
 			}
 		}
 
@@ -118,12 +119,7 @@ public class ItemsCollection implements Iterable<Item> {
 		Collections.sort(tempMusic, new ItemComparator(orderType.Creator));
 		Collections.sort(tempBook, new ItemComparator(orderType.Creator));
 
-		// Find all unique Creators and organise them
-		for (Item i : _itemList) {
-			if(!ownerList.contains(i.getOwner())) {
-				ownerList.add(i.getOwner());
-			}
-		}
+		// Orangise owners by name
 		Collections.sort(ownerList);
 
 		// add all books and music according to owner
@@ -141,4 +137,4 @@ public class ItemsCollection implements Iterable<Item> {
 		}
 		return info;
 	}
-}
+}	

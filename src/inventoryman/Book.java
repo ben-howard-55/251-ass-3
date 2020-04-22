@@ -1,4 +1,4 @@
-	package inventoryman;
+package inventoryman;
 
 public class Book extends Item {
 
@@ -12,7 +12,6 @@ public class Book extends Item {
 		
 		_publisher = publisher;
 		_publicationYear = publicationYear;
-		
 	}
 	
 	public String getItemToDisplay() {
@@ -27,5 +26,4 @@ public class Book extends Item {
 	public String itemReport() {
 		return getOwner() + ": " + getCreator() + ", '" + getTitle() + "'. (" + getFormatStr() + ")";
 				}
-
 }

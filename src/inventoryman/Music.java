@@ -4,14 +4,11 @@ public class Music extends Item {
 	
 	private String _releaseDateStr;
 	
-
 	public Music(String artist, String title, String releaseDateStr, String acquisitionDateStr, String owner,
 			String costStr, String formatStr) {
-		
 		super(title, acquisitionDateStr, owner, costStr, formatStr, artist);
 		
-		_releaseDateStr = releaseDateStr;
-			
+		_releaseDateStr = releaseDateStr;	
 	}
 	
 	public String getItemToDisplay() {
@@ -22,9 +19,8 @@ public class Music extends Item {
 	public String itemAdded() {
 		return "Error";
 	}
+
 	public String itemReport() {
 		return getOwner() + ": '" + getTitle() + "' by " + getCreator() + " (" + getFormatStr() + ")";
-				}
-
-		
+				}	
 }

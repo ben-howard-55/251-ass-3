@@ -21,10 +21,10 @@ public class InventoryManImpl implements InventoryMan{
 		
 		try {
 			if (costStr.charAt(0) != '$' || costStr.charAt(costStr.length() - 3) != '.') {
-				throw new ItemException("ERrOR: A Incorrect cost format (needs to be $dollars.cents e.g. $500.50): " + costStr);
+				throw new ItemException("ERROR: A Incorrect cost format (needs to be $dollars.cents e.g. $500.50): " + costStr);
 			} 
 			if (acquisitionDateStr.charAt(4) != '-' || acquisitionDateStr.charAt(7) != '-' || acquisitionDateStr.charAt(acquisitionDateStr.length()-3) != '-') {
-				throw new ItemException("ErOR: A Incorrect dating format for acquisition date (needs to be ISO8601 format): " + acquisitionDateStr);
+				throw new ItemException("ERROR: A Incorrect dating format for acquisition date (needs to be ISO8601 format): " + acquisitionDateStr);
 			} 	
 		}
 		catch (ItemException ex) {

@@ -18,12 +18,6 @@ public abstract class Item {
 		
 	}
 
-	public enum orderType {
-		Creator,
-		Title,
-		Acquisition;
-	}
-	
 	public enum formatType {
 		CD,
 		LP,
@@ -53,9 +47,6 @@ public abstract class Item {
 	}
 	public String getCreator() {
 		return _creator;
-	}
-	public String itemAdded() {
-		return "failed";
 	}
 	
 	public String getItem() {
