@@ -15,36 +15,38 @@ public abstract class Item {
 		_costStr = costStr;
 		_formatStr = formatStr;
 		_creator = creator;
-		
 	}
-
+	// formats of Items that will not change.
 	public enum formatType {
 		CD,
 		LP,
 		Hardcover,
 		Paperback;
 	} 
+	// abstract methods that the children of Item are expected to use polymorphicly
+	public abstract String getItemToDisplay();
+	public abstract String itemReport();
 	
 	public String getTitle() {
 		return _title;
-		
 	}
+
 	public String getAcquisitionDateStr() {
 		return _acquisitionDateStr;
-		
 	}
+
 	public String getOwner() {
 		return _owner;
-		
 	}
+
 	public String getCostStr() {
 		return _costStr;
-		
 	}
+
 	public String getFormatStr() {
 		return _formatStr;
-		
 	}
+
 	public String getCreator() {
 		return _creator;
 	}
@@ -53,17 +55,7 @@ public abstract class Item {
 		return _creator + _title + _formatStr;
 	}
 	
-	public String getItemToDisplay() {
-		return _title + " " + _creator + " " + _formatStr;
-	}
-	
 	public String getYearOfAcquisition() {
 		return _acquisitionDateStr.substring(0,4);
 	}
-	
-	public String itemReport() {
-		return _owner;
-	}
-	
-
 }

@@ -20,18 +20,14 @@ public class ItemsCollection implements Iterable<Item> {
 
 	public void addBook(Book book) {
 		_itemList.add(book);
-
 	}
 
 	public void addMusic(Music music) {
 		_itemList.add(music);
-
 	}
 
-
-
 	public String findItem(String itemToFind) {
-
+		// Looks through all items and finds the item that matches the input 
 		for (Item item : _itemList) {
 			if (itemToFind.equalsIgnoreCase(item.getItem())) {
 				return item.getItemToDisplay();
@@ -40,52 +36,46 @@ public class ItemsCollection implements Iterable<Item> {
 		return null;
 	}
 
-
-
 	public List<String> getAll(String type) {
-		
-		List<Item> temp = _itemList;
 		List<String> info = new ArrayList<String>();
+		// Change type string to a orderType
 		orderType _type = orderType.valueOf(type);
-		Collections.sort(temp, new ItemComparator(_type));
-
-		for (Item i : temp) {	
+		// Sort by selected orderType
+		Collections.sort(_itemList, new ItemComparator(_type));
+		// Add all item information to an organised list
+		for (Item i : _itemList) {	
 			info.add(i.getItemToDisplay()); // polymorphism 
 		}
 		return info;
 	}
 
-
-
 	public List<String> getItemsAcquiredInYear(String year) {
 		List<Item> itemsInYear = new ArrayList<Item>();
 		List<String> itemsInYearStr = new ArrayList<String>();
-
-		for (Item i : _itemList) {
-			if (i.getYearOfAcquisition().contentEquals(year)) {
-				itemsInYear.add(i);
+		// Finds all items acquired in a year
+		for (Item item : _itemList) {
+			if (item.getYearOfAcquisition().contentEquals(year)) {
+				itemsInYear.add(item);
 			}
 		}
-
+		// Organises all the items found in the year
 		Collections.sort(itemsInYear, new ItemComparator(orderType.Acquisition));
-
-		for (Item i : itemsInYear) {
-			itemsInYearStr.add(i.getItemToDisplay());
+		// Add all item information to an organized list
+		for (Item item : itemsInYear) {
+			itemsInYearStr.add(item.getItemToDisplay());
 		}
 		return itemsInYearStr;
 	}
 
-
-
 	public List<String> getCreators() {
 		List<String> temp = new ArrayList<String>();
 		List<String> newList = new ArrayList<String>();
-
-		for (Item i : _itemList) {
-			temp.add(i.getCreator());
-
-			if(!newList.contains(i.getCreator())) {
-				newList.add(i.getCreator());
+		// Find all creators
+		for (Item item : _itemList) {
+			temp.add(item.getCreator());
+			// Remove all duplicate Creators
+			if(!newList.contains(item.getCreator())) {
+				newList.add(item.getCreator());
 			}
 		}
 		return newList;

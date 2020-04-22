@@ -10,16 +10,12 @@ public class Music extends Item {
 		
 		_releaseDateStr = releaseDateStr;	
 	}
-	
+	// display the Music's information
 	public String getItemToDisplay() {
 		return "'" + getTitle() + "' by " +  getCreator() + ", " + _releaseDateStr + ". (" + 
 	    getFormatStr() + ", " + getOwner() + ", " + getAcquisitionDateStr() + ", " + getCostStr() + ")";
 	}
-	
-	public String itemAdded() {
-		return "Error";
-	}
-
+	// report the Music information
 	public String itemReport() {
 		return getOwner() + ": '" + getTitle() + "' by " + getCreator() + " (" + getFormatStr() + ")";
 				}	

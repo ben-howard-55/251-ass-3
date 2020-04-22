@@ -7,7 +7,4 @@ public class ItemException extends RuntimeException {
 		super(s);
 		
 	}
-	
-	
-
 }
