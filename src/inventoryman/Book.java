@@ -17,7 +17,7 @@ public class Book extends Item {
 		return getCreator() + ", '" + getTitle() + "'. (" + _publicationYear + ", " +  _publisher + "). [" + getFormatStr() + ", " + 
 		getOwner() + ", " + getAcquisitionDateStr() + ", " + getCostStr() + "]";
 	}
-	// report the Music information
+	// report the Book information
 	public String itemReport() {
 		return getOwner() + ": " + getCreator() + ", '" + getTitle() + "'. (" + getFormatStr() + ")";
 				}
