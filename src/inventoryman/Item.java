@@ -1,5 +1,7 @@
 package inventoryman;
 
+import java.util.Comparator;
+
 public abstract class Item {
 	private String _title;
 	private String _acquisitionDateStr;
@@ -23,6 +25,36 @@ public abstract class Item {
 		Hardcover,
 		Paperback;
 	} 
+    // The only 3 Types of organisation that can occur
+    public enum orderType {
+		Creator,
+		Title,
+		Acquisition;
+	}
+	// nested class that allows the ItemComparator to be used without breaking encapsulation
+	public static class ItemComparator implements Comparator<Item> {
+
+		private orderType _type;
+	
+		public ItemComparator(orderType title) {
+			_type = title;
+		}
+	
+		// Compares the objects in different ways depending on its orderType
+		public int compare(Item object1, Item object2) {
+		switch(_type) {
+			case Creator:
+				return object1._creator.compareTo(object2._creator);
+			case Title:
+				return object1._title.compareTo(object2._title);
+			case Acquisition:
+				return object1._acquisitionDateStr.compareTo(object2._acquisitionDateStr);
+			default:
+				return object1._creator.compareTo(object2._creator);
+			} 
+		}
+	}
+
 	// abstract methods that the children of Item are expected to use polymorphicly
 	public abstract String getItemToDisplay();
 	public abstract String itemReport();

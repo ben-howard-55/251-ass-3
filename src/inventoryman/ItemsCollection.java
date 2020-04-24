@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import inventoryman.ItemComparator.orderType;
+
+import inventoryman.Item.orderType;
 
 public class ItemsCollection implements Iterable<Item> {
 
@@ -41,7 +42,7 @@ public class ItemsCollection implements Iterable<Item> {
 		// Change type string to a orderType
 		orderType _type = orderType.valueOf(type);
 		// Sort by selected orderType
-		Collections.sort(_itemList, new ItemComparator(_type));
+		Collections.sort(_itemList, new Item.ItemComparator(_type));
 		// Add all item information to an organised list
 		for (Item i : _itemList) {	
 			info.add(i.getItemToDisplay()); // polymorphism 
@@ -59,7 +60,7 @@ public class ItemsCollection implements Iterable<Item> {
 			}
 		}
 		// Organises all the items found in the year
-		Collections.sort(itemsInYear, new ItemComparator(orderType.Acquisition));
+		Collections.sort(itemsInYear, new Item.ItemComparator(orderType.Acquisition));
 		// Add all item information to an organized list
 		for (Item item : itemsInYear) {
 			itemsInYearStr.add(item.getItemToDisplay());
@@ -90,7 +91,7 @@ public class ItemsCollection implements Iterable<Item> {
 		List<String> ownerList = new ArrayList<String>();
 
 		// Organise Items by its title
-		Collections.sort(_itemList, new ItemComparator(orderType.Title));
+		Collections.sort(_itemList, new Item.ItemComparator(orderType.Title));
 
 		// Seperate Items by Music and Book
 		for (Item item : _itemList) {
@@ -106,22 +107,22 @@ public class ItemsCollection implements Iterable<Item> {
 		}
 
 		// Organise Books and Music by Creator
-		Collections.sort(tempMusic, new ItemComparator(orderType.Creator));
-		Collections.sort(tempBook, new ItemComparator(orderType.Creator));
+		Collections.sort(tempMusic, new Item.ItemComparator(orderType.Creator));
+		Collections.sort(tempBook, new Item.ItemComparator(orderType.Creator));
 
 		// Orangise owners by name
 		Collections.sort(ownerList);
 
 		// add all books and music according to owner
 		for (String owner : ownerList) {
-			for (Item bookOwner : tempBook) {
-				if (owner.equals(bookOwner.getOwner())) {
-					info.add(bookOwner.itemReport());
+			for (Item book : tempBook) {
+				if (owner.equals(book.getOwner())) {
+					info.add(book.itemReport());
 				}
 			}
-			for (Item musicOwner : tempMusic) {
-				if (owner.equals(musicOwner.getOwner())) {
-					info.add(musicOwner.itemReport());
+			for (Item music : tempMusic) {
+				if (owner.equals(music.getOwner())) {
+					info.add(music.itemReport());
 				}
 			}
 		}
