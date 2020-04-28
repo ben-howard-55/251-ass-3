@@ -39,10 +39,30 @@ public class ItemsCollection implements Iterable<Item> {
 
 	public List<String> getAll(String type) {
 		List<String> info = new ArrayList<String>();
+
 		// Change type string to a orderType
 		orderType _type = orderType.valueOf(type);
+
 		// Sort by selected orderType
-		Collections.sort(_itemList, new Item.ItemComparator(_type));
+		switch (_type) {
+			case Creator:
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Acquisition));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Title));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Creator));
+				break;
+			case Title:
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Acquisition));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Creator));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Title));
+				break;
+			case Acquisition:
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Title));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Creator));
+				Collections.sort(_itemList, new Item.ItemComparator(orderType.Acquisition));
+				break;
+		}
+
+
 		// Add all item information to an organised list
 		for (Item i : _itemList) {	
 			info.add(i.getItemToDisplay()); // polymorphism 

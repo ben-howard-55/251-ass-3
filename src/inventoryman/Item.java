@@ -56,8 +56,8 @@ public abstract class Item {
 	}
 
 	// abstract methods that the children of Item are expected to use polymorphicly
-	public abstract String getItemToDisplay();
-	public abstract String itemReport();
+	protected abstract String getItemToDisplay();
+	protected abstract String itemReport();
 	
 	public String getTitle() {
 		return _title;
