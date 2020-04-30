@@ -2,6 +2,7 @@ package inventoryman;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class InventoryManImpl implements InventoryMan{
 
@@ -18,10 +19,11 @@ public class InventoryManImpl implements InventoryMan{
 			String acquisitionDateStr, String owner, String costStr, String formatStr) {
 		// Checked exception to see if select inputs are wrong, if so then book will not be added
 		try {
-			if (costStr.charAt(0) != '$' || costStr.charAt(costStr.length() - 3) != '.') { // Check the cost formatting
+			if (!Pattern.matches("\\$\\d+\\.\\d\\d", costStr)) { // Check the cost formatting
 				throw new ItemException("ERROR: A Incorrect cost format (needs to be $dollars.cents e.g. $500.50): " + costStr);
-			} // Check the date formatting
-			if (acquisitionDateStr.charAt(4) != '-' || acquisitionDateStr.charAt(7) != '-' || acquisitionDateStr.charAt(acquisitionDateStr.length()-3) != '-') {
+			}
+		// Check the date formatting
+			if (!Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", acquisitionDateStr)) {
 				throw new ItemException("ERROR: A Incorrect dating format for acquisition date (needs to be ISO8601 format): " + acquisitionDateStr);
 			} 	
 		}
@@ -38,13 +40,13 @@ public class InventoryManImpl implements InventoryMan{
 			String costStr, String formatStr) {
 			// Checked exception to see if select inputs are wrong, if so then music will not be added
 		try {
-			if (costStr.charAt(0) != '$' || costStr.charAt(costStr.length() - 3) != '.') { // Check the cost formatting
+			if (!Pattern.matches("\\$\\d+\\.\\d\\d", costStr)) { // Check the cost formatting
 				throw new ItemException("ERROR: A Incorrect cost format (needs to be $dollars.cents e.g. $500.50): " + costStr);
 			} //check the date formatting
-			if (acquisitionDateStr.charAt(4) != '-' || acquisitionDateStr.charAt(7) != '-' || acquisitionDateStr.charAt(acquisitionDateStr.length()-3) != '-') {
+			if (!Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", acquisitionDateStr)) {
 				throw new ItemException("ERROR: A Incorrect dating format for acquisition date (needs to be ISO8601 format): " + acquisitionDateStr);
 			} //check the date formatting
-			if (releaseDateStr.charAt(4) != '-' || releaseDateStr.charAt(7) != '-'|| releaseDateStr.charAt(releaseDateStr.length()-3) != '-') {
+			if (!Pattern.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d", acquisitionDateStr)) {
 				throw new ItemException("ERROR: A Incorrect dating format for release date (needs to be ISO8601 format): " + releaseDateStr);
 			} 
 		} 
